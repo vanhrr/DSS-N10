@@ -38,8 +38,10 @@ input_data = np.array([[rainfall, temp, soil_type_encoded,
 # Make prediction
 yield_estimate = model.predict(input_data)
 
-# Display the forecasted yield
-st.write(f"Dự đoán năng suất: {yield_estimate[0]:.2f} kg/ha")
+
+if st.button('Dự đoán năng suất'):
+    st.write(f"Dự đoán năng suất: {yield_estimate[0]:.2f} kg/ha")
+
 
 # # Generate and display recommendations
 # recommendations = generate_recommendations(

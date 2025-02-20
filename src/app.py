@@ -5,8 +5,8 @@ import joblib
 # from utils.recommendations import generate_recommendations
 
 # Load model and label encoders
-model = joblib.load('models/yield_model.pkl')
-label_encoders = joblib.load('models/yield_model_label_encoders.pkl')
+model = joblib.load('./models/yield_model.pkl')
+label_encoders = joblib.load('./models/yield_model_label_encoders.pkl')
 
 # Title of the application
 st.title("Hệ hỗ trợ ra quyết định cho nông dân")

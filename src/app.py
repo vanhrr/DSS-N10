@@ -2,12 +2,18 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
-# from utils.recommendations import generate_recommendations
+from utils.recommendations import generate_recommendations
 
 # Load model and label encoders
-model = joblib.load('src/models/yield_model.pkl')
-label_encoders = joblib.load('src/models/yield_model_label_encoders.pkl')
+model = joblib.load('./models/yield_model.pkl')
+label_encoders = joblib.load('./models/yield_model_label_encoders.pkl')
+feature_importances = joblib.load('./models/feature_importances.pkl')
 
+data = pd.read_csv('./data/data_season_vietnamese.csv')
+
+# Determine min and max values for each feature
+min_values = data.min()
+max_values = data.max()
 # Title of the application
 st.title("Hệ hỗ trợ ra quyết định cho nông dân")
 
@@ -42,10 +48,55 @@ yield_estimate = model.predict(input_data)
 if st.button('Dự đoán năng suất'):
     st.write(f"Dự đoán năng suất: {yield_estimate[0]:.2f} kg/ha")
 
+    feature_names = ['rainfall', 'temp', 'soil_type',
+                     'cultivation_method', 'fertilizer', 'humidity', 'tree_name']
+    feature_names_vn = ['Lượng mưa', 'Nhiệt độ', 'Loại đất',
+                        'Phương pháp canh tác', 'Phân bón', 'Độ ẩm', 'Loại cây']
+    most_important_feature_index = np.argmax(feature_importances)
+    most_important_feature = feature_names[most_important_feature_index]
+    most_important_feature_vn = feature_names_vn[most_important_feature_index]
 
-# # Generate and display recommendations
-# recommendations = generate_recommendations(
-#     temp, humidity, rainfall, soil_type, fertilizer, cultivation_method, tree_name)
-# st.write("Recommendations for Improving Yield:")
-# for rec in recommendations:
-#     st.write(f"- {rec}")
+    # Test different values for the most important feature
+    if most_important_feature in ['soil_type', 'cultivation_method', 'fertilizer', 'tree_name']:
+        # Handle categorical features
+        unique_values = data[most_important_feature].unique()
+        test_values = label_encoders[most_important_feature].transform(
+            unique_values)
+    else:
+        # Handle numeric features
+        min_value = min_values[most_important_feature]
+        max_value = max_values[most_important_feature]
+        test_values = np.linspace(min_value, max_value, num=5)
+
+    yield_estimates = []
+    for value in test_values:
+        test_data = input_data.copy()
+        test_data[0, most_important_feature_index] = value
+        yield_estimates.append(model.predict(test_data)[0])
+
+    # Determine the best value for the most important feature
+    best_value_index = np.argmax(yield_estimates)
+    best_value = test_values[best_value_index]
+    best_yield = yield_estimates[best_value_index]
+
+    # Convert best_value to text if the feature is categorical
+    if most_important_feature in ['soil_type', 'cultivation_method', 'fertilizer', 'tree_name']:
+        best_value = label_encoders[most_important_feature].inverse_transform([
+                                                                              int(best_value)])[0]
+    # Generate and display recommendations
+    recommendations = generate_recommendations({
+        'temperature': temp,
+        'humidity': humidity,
+        'rainfall': rainfall
+    }, soil_type, fertilizer, cultivation_method)
+
+    st.write(
+        f"Yếu tố quan trọng nhất để cải thiện năng suất: {most_important_feature_vn}")
+    st.write(
+        f"Giá trị hiện tại của {most_important_feature_vn}: {input_data[0, most_important_feature_index]}")
+    st.write(
+        f"Giá trị tốt nhất của {most_important_feature_vn} để cải thiện năng suất: {best_value}")
+    st.write(f"Năng suất dự đoán với giá trị tốt nhất: {best_yield:.2f} kg/ha")
+    st.write("Khuyến nghị để cải thiện năng suất cây trồng của bạn:")
+    for rec in recommendations:
+        st.write(f"- {rec}")

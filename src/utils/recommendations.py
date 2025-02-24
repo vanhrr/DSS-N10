@@ -3,36 +3,46 @@ def generate_recommendations(weather, soil_type, fertilizer, cultivation_method)
 
     # Weather recommendations
     if weather['temperature'] > 30:
-        recommendations.append("Consider using shade nets to protect crops from excessive heat.")
+        recommendations.append(
+            "Cân nhắc sử dụng lưới che để bảo vệ cây trồng khỏi nhiệt độ quá cao.")
     if weather['humidity'] < 40:
-        recommendations.append("Irrigation may be necessary due to low humidity levels.")
-    
+        recommendations.append("Có thể cần tưới tiêu do độ ẩm thấp.")
+
     # Soil type recommendations
     if soil_type == "Cát":
-        recommendations.append("Consider adding organic matter to improve soil fertility.")
+        recommendations.append(
+            "Cân nhắc thêm chất hữu cơ để cải thiện độ phì nhiêu của đất.")
     elif soil_type == "Sét":
-        recommendations.append("Ensure proper drainage to prevent waterlogging.")
+        recommendations.append("Đảm bảo thoát nước tốt để tránh ngập úng.")
     elif soil_type == "Thịt":
-        recommendations.append("This soil type retains moisture well; monitor for overwatering.")
+        recommendations.append(
+            "Loại đất này giữ ẩm tốt; cần theo dõi để tránh tưới quá nhiều.")
     elif soil_type == "Mùn":
-        recommendations.append("This soil is nutrient-rich; regular testing is recommended.")
+        recommendations.append(
+            "Đất này giàu dinh dưỡng; nên kiểm tra định kỳ.")
 
     # Fertilizer recommendations
     if fertilizer == "Hữu cơ":
-        recommendations.append("Organic fertilizers can improve soil health over time.")
+        recommendations.append(
+            "Phân bón hữu cơ có thể cải thiện sức khỏe đất theo thời gian.")
     elif fertilizer == "Vô cơ":
-        recommendations.append("Ensure balanced nutrient application to avoid soil depletion.")
+        recommendations.append(
+            "Đảm bảo bón phân cân đối để tránh làm cạn kiệt đất.")
     elif fertilizer == "Vi sinh":
-        recommendations.append("Microbial fertilizers can enhance nutrient uptake.")
+        recommendations.append(
+            "Phân bón vi sinh có thể tăng cường hấp thu dinh dưỡng.")
 
     # Cultivation method recommendations
     if cultivation_method == "Thủy canh":
-        recommendations.append("Monitor nutrient levels closely for optimal growth.")
+        recommendations.append(
+            "Theo dõi chặt chẽ mức dinh dưỡng để cây phát triển tối ưu.")
     elif cultivation_method == "Khí canh":
-        recommendations.append("Ensure proper misting intervals to maintain humidity.")
+        recommendations.append(
+            "Đảm bảo khoảng thời gian phun sương hợp lý để duy trì độ ẩm.")
     elif cultivation_method == "Công nghệ cao":
-        recommendations.append("Utilize precision agriculture tools for better yield management.")
+        recommendations.append(
+            "Sử dụng các công cụ nông nghiệp chính xác để quản lý năng suất tốt hơn.")
     elif cultivation_method == "Truyền thống":
-        recommendations.append("Consider crop rotation to maintain soil health.")
-
+        recommendations.append(
+            "Cân nhắc luân canh cây trồng để duy trì sức khỏe đất.")
     return recommendations

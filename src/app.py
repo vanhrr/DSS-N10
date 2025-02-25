@@ -4,6 +4,47 @@ import numpy as np
 import joblib
 from utils.recommendations import generate_recommendations
 
+# Background image
+st.markdown(
+    f"""
+    <style>
+    .stApp {{
+        background-image:url("https://images.pexels.com/photos/30733228/pexels-photo-30733228/free-photo-of-nong-nghi-p-truy-n-th-ng-canh-d-ng-thu-c-la-dong-java.jpeg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }}
+    #bd69ec75 {{
+        color: white;
+        front-size: 100px;
+        
+    }}
+    p, li {{
+        font-weight: 600;
+        color: white;
+    }}
+    .e6rk8up3{{
+            background-color: RGBA(0,0,0,0.3);
+            padding: 30px;
+            border-radius: 20px;
+            width: 764px;
+    }}
+    .e1d5ycv52{{
+            background-color: #bd69ec75;
+            transition:1s;
+    }}
+    .e1d5ycv52:hover{{
+            background-color: #bd69ec75;
+            scale: 1.3;
+    }}
+    .stButton{{
+            display: flex;
+            justify-content: center;
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 # Load model and label encoders
 model = joblib.load('./models/yield_model.pkl')
 label_encoders = joblib.load('./models/yield_model_label_encoders.pkl')

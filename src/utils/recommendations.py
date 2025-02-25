@@ -45,4 +45,5 @@ def generate_recommendations(weather, soil_type, fertilizer, cultivation_method)
     elif cultivation_method == "Truyền thống":
         recommendations.append(
             "Cân nhắc luân canh cây trồng để duy trì sức khỏe đất.")
+
     return recommendations
